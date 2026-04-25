@@ -2,64 +2,17 @@
 
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clube do Green</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clube do Green</title>
 
-  <style>
-    body {
-      background: #0f172a;
-      color: white;
-      font-family: Arial;
-      margin: 0;
-      padding: 15px;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: auto;
-    }
-
-    h1 {
-      color: #22c55e;
-      text-align: center;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-
-    .card {
-      background: #1e293b;
-      padding: 15px;
-      border-radius: 12px;
-      margin-top: 10px;
-    }
-
-    .btn {
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    .vip {
-      background: #22c55e;
-      font-size: 18px;
-    }
-
-    .gratis {
-      background: #3b82f6;
-    }
-
-    .odd {
-      color: #22c55e;
-      font-weight: bold;
-    }
-  </style>
+<style>
+body { background:#0f172a;color:white;font-family:Arial;padding:15px; }
+.container { max-width:500px;margin:auto; }
+.card { background:#1e293b;padding:15px;border-radius:12px;margin-top:10px; }
+.btn { padding:15px;border-radius:10px;text-align:center;font-weight:bold;margin-top:10px; }
+.vip { background:#22c55e;font-size:18px; }
+</style>
 
 </head>
 
@@ -67,53 +20,49 @@
 
 <div class="container">
 
-<h1>🔥 Clube do Green</h1>
-<p class="subtitle">Palpites analisados • Gestão de banca • Foco em lucro</p>
+<h1 style="color:#22c55e;">🔥 Clube do Green</h1>
+<p>Jogos atualizados automaticamente</p>
 
-<p style="text-align:center;">✅ 12 greens seguidos</p>
-<p style="text-align:center;">📈 +320 unidades de lucro</p>
-
-<h2 style="margin-top:15px;">🔥 Bilhete do Dia (ODD 3.20)</h2>
-
-<div class="card">
-  <h3>Inter x Cagliari</h3>
-  <p>Palpite: Inter vence</p>
-  <p class="odd">Odd: 1.55</p>
-</div>
-
-<div class="card">
-  <h3>Köln x St. Pauli</h3>
-  <p>Palpite: +2.5 gols</p>
-  <p class="odd">Odd: 1.80</p>
-</div>
-
-<div class="card">
-  <h3>Real Madrid x Getafe</h3>
-  <p>Palpite: Real Madrid vence</p>
-  <p class="odd">Odd: 1.40</p>
-</div>
-
-<div class="card">
-  <h3>🎟 Bilhete Seguro</h3>
-  <p>✔ Inter vence</p>
-  <p>✔ +1.5 gols</p>
-</div>
-
-<!-- BOTÕES -->
+<div id="jogos"></div>
 
 <a href="https://wa.me/5583974003238" target="_blank">
-  <div class="btn gratis">📲 Entrar no Grupo Grátis</div>
+<div class="btn vip">🚀 ENTRAR NO VIP</div>
 </a>
-
-<a href="https://wa.me/5583974003238" target="_blank">
-  <div class="btn vip">🚀 ENTRAR NO VIP AGORA</div>
-</a>
-
-<p style="margin-top:20px;font-size:12px;color:#94a3b8;text-align:center;">
-⚠️ Aposte com responsabilidade. Conteúdo informativo.
-</p>
 
 </div>
+
+<script>
+async function carregarJogos() {
+  const url = "https://api-football-v1.p.rapidapi.com/v3/fixtures?next=5";
+
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": "SUA_API_KEY",
+      "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+    }
+  };
+
+  const resposta = await fetch(url, options);
+  const dados = await resposta.json();
+
+  const container = document.getElementById("jogos");
+
+  dados.response.forEach(jogo => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <h3>${jogo.teams.home.name} x ${jogo.teams.away.name}</h3>
+      <p>🔥 Jogo ao vivo / próximo</p>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+carregarJogos();
+</script>
 
 </body>
 </html>
